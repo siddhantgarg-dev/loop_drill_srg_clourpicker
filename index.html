@@ -4,149 +4,530 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Loop</title>
+
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
-.loop{
-  --colour:#25262A;
-  position:relative;width:100%;height:100vh;min-height:280px;
-  display:flex;align-items:center;justify-content:center;
-  background:transparent;overflow:hidden;
+* {
+  box-sizing: border-box;
 }
-.glow{
-  position:absolute;z-index:0;width:min(76vw,980px);height:min(42vw,500px);
-  border-radius:50%;background:var(--colour);opacity:.17;
-  filter:blur(70px);transition:background .65s ease,opacity .65s ease;
-  pointer-events:none;
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
 }
-.product{
-  position:relative;z-index:1;width:min(78vw,1050px);aspect-ratio:16/9;
-  cursor:pointer;isolation:isolate;
+
+.loop {
+  --colour: #25262A;
+
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 280px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  overflow: hidden;
 }
-.render{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:contain;user-select:none;-webkit-user-drag:none;
-  will-change:opacity,transform,filter;
+
+.glow {
+  position: absolute;
+  z-index: 0;
+
+  width: min(76vw, 980px);
+  height: min(42vw, 500px);
+
+  border-radius: 50%;
+
+  background: var(--colour);
+  opacity: .17;
+
+  filter: blur(70px);
+
+  transition:
+    background .65s ease,
+    opacity .65s ease;
+
+  pointer-events: none;
 }
-.flat{
-  opacity:1;
-  transform:scale(1);
-  filter:blur(0);
+
+.product {
+  position: relative;
+  z-index: 1;
+
+  width: min(78vw, 1050px);
+  aspect-ratio: 16 / 9;
+
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.render {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  user-select: none;
+  -webkit-user-drag: none;
+
+  will-change: opacity, transform, filter;
+}
+
+/* FLAT VIEW */
+
+.flat {
+  opacity: 1;
+
+  transform:
+    scale(1)
+    translate3d(0,0,0);
+
+  filter: blur(0);
+
   transition:
     opacity .30s cubic-bezier(.4,0,1,1),
-    transform .42s cubic-bezier(.22,.61,.36,1),
-    filter .30s ease;
+    transform .55s cubic-bezier(.22,.61,.36,1),
+    filter .35s ease;
 }
-.hover{
-  opacity:0;
-  transform:scale(.965) translate3d(0,8px,0);
-  filter:blur(5px);
+
+/* HOVER VIEW */
+
+.hover {
+  opacity: 0;
+
+  transform:
+    scale(.97)
+    translate3d(0,10px,0);
+
+  filter: blur(5px);
+
   transition:
-    opacity .48s cubic-bezier(.16,1,.3,1) .13s,
-    transform .62s cubic-bezier(.16,1,.3,1),
-    filter .48s ease .13s;
+    opacity .55s cubic-bezier(.16,1,.3,1),
+    transform .75s cubic-bezier(.16,1,.3,1),
+    filter .55s ease;
 }
-.product.is-hovering .flat{
-  opacity:0;
-  transform:scale(.985) translate3d(0,-4px,0);
-  filter:blur(3px);
+
+/* ROTATING / MORPHING STATE */
+
+.product.is-hovering .flat {
+  opacity: 0;
+
+  transform:
+    scale(.985)
+    translate3d(0,-5px,0);
+
+  filter: blur(3px);
 }
-.product.is-hovering .hover{
-  opacity:1;
-  transform:scale(1) translate3d(0,0,0);
-  filter:blur(0);
+
+.product.is-hovering .hover {
+  opacity: 1;
+
+  transform:
+    scale(1)
+    translate3d(0,0,0);
+
+  filter: blur(0);
 }
-.selector{
-  position:absolute;z-index:4;left:50%;bottom:7%;
-  transform:translateX(-50%);
-  display:flex;align-items:center;gap:13px;padding:6px 10px;
-  border:1px solid rgba(255,255,255,.9);border-radius:999px;
-  background:rgba(255,255,255,.38);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),0 7px 25px rgba(0,0,0,.055);
-  backdrop-filter:blur(18px) saturate(125%);
-  -webkit-backdrop-filter:blur(18px) saturate(125%);
+
+
+/* LIQUID GLASS SELECTOR */
+
+.selector {
+  position: absolute;
+  z-index: 4;
+
+  left: 50%;
+  bottom: 7%;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 6px 10px;
+
+  border:
+    1px solid rgba(255,255,255,.9);
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.38);
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.95),
+    0 7px 25px rgba(0,0,0,.055);
+
+  backdrop-filter:
+    blur(18px)
+    saturate(125%);
+
+  -webkit-backdrop-filter:
+    blur(18px)
+    saturate(125%);
 }
-button{
-  appearance:none;-webkit-appearance:none;width:18px;height:18px;
-  padding:0;border:0;border-radius:50%;background:var(--swatch);cursor:pointer;
-  box-shadow:inset 0 1px 2px rgba(255,255,255,.75),0 1px 3px rgba(0,0,0,.08);
-  transition:transform .2s ease,box-shadow .2s ease;
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  width: 18px;
+  height: 18px;
+
+  padding: 0;
+  border: 0;
+
+  border-radius: 50%;
+
+  background: var(--swatch);
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.75),
+    0 1px 3px rgba(0,0,0,.08);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 }
-button:hover{transform:scale(1.12)}
-button.active{
-  transform:scale(1.17);
-  box-shadow:0 0 0 2px rgba(255,255,255,.96),0 0 0 3px rgba(80,80,80,.16),
-             inset 0 1px 2px rgba(255,255,255,.75);
+
+button:hover {
+  transform: scale(1.12);
 }
-@media(max-width:600px){
-  .product{width:96vw}
-  .glow{width:96vw;height:52vw;filter:blur(45px)}
-  .selector{bottom:4%;gap:11px;padding:5px 9px}
-  button{width:16px;height:16px}
+
+button.active {
+  transform: scale(1.17);
+
+  box-shadow:
+    0 0 0 2px rgba(255,255,255,.96),
+    0 0 0 3px rgba(80,80,80,.16),
+    inset 0 1px 2px rgba(255,255,255,.75);
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+  .loop {
+    height: 430px;
+    min-height: 430px;
+  }
+
+  .product {
+    width: 92vw;
+  }
+
+  .glow {
+    width: 90vw;
+    height: 45vw;
+
+    filter: blur(55px);
+  }
+
+  .selector {
+    bottom: 5%;
+  }
+}
+
+
+/* PHONE */
+
+@media (max-width: 600px) {
+
+  .loop {
+    height: 300px;
+    min-height: 300px;
+  }
+
+  .product {
+    width: 100vw;
+    max-width: none;
+  }
+
+  .glow {
+    width: 100vw;
+    height: 55vw;
+
+    filter: blur(42px);
+    opacity: .15;
+  }
+
+  .selector {
+    bottom: 4%;
+
+    gap: 10px;
+
+    padding:
+      5px 8px;
+  }
+
+  button {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+
+/* SMALL PHONE */
+
+@media (max-width: 400px) {
+
+  .loop {
+    height: 260px;
+    min-height: 260px;
+  }
+
+  .selector {
+    bottom: 3%;
+  }
+
+  button {
+    width: 14px;
+    height: 14px;
+  }
 }
 </style>
 </head>
+
+
 <body>
+
 <div class="loop" id="loop">
+
   <div class="glow"></div>
+
+
   <div class="product" id="product">
-    <img id="flat" class="render flat" src="black-flat.png" alt="Loop drill">
-    <img id="hover" class="render hover" src="black-hover.png" alt="">
+
+    <img
+      id="flat"
+      class="render flat"
+      src="black-flat.png"
+      alt="Loop drill"
+    >
+
+    <img
+      id="hover"
+      class="render hover"
+      src="black-hover.png"
+      alt=""
+    >
+
   </div>
+
+
   <div class="selector">
-    <button class="active" data-colour="black" data-bg="#25262A" style="--swatch:#25262A" aria-label="Black"></button>
-    <button data-colour="blue" data-bg="#A9C7ED" style="--swatch:#A9C7ED" aria-label="Blue"></button>
-    <button data-colour="green" data-bg="#A9D9C2" style="--swatch:#A9D9C2" aria-label="Green"></button>
-    <button data-colour="coral" data-bg="#F0B09F" style="--swatch:#F0B09F" aria-label="Coral"></button>
-    <button data-colour="purple" data-bg="#C9B1E4" style="--swatch:#C9B1E4" aria-label="Purple"></button>
-    <button data-colour="yellow" data-bg="#F0D65C" style="--swatch:#F0D65C" aria-label="Yellow"></button>
+
+    <button
+      class="active"
+      data-colour="black"
+      data-bg="#25262A"
+      style="--swatch:#25262A"
+      aria-label="Black">
+    </button>
+
+    <button
+      data-colour="blue"
+      data-bg="#A9C7ED"
+      style="--swatch:#A9C7ED"
+      aria-label="Blue">
+    </button>
+
+    <button
+      data-colour="green"
+      data-bg="#A9D9C2"
+      style="--swatch:#A9D9C2"
+      aria-label="Green">
+    </button>
+
+    <button
+      data-colour="coral"
+      data-bg="#F0B09F"
+      style="--swatch:#F0B09F"
+      aria-label="Coral">
+    </button>
+
+    <button
+      data-colour="purple"
+      data-bg="#C9B1E4"
+      style="--swatch:#C9B1E4"
+      aria-label="Purple">
+    </button>
+
+    <button
+      data-colour="yellow"
+      data-bg="#F0D65C"
+      style="--swatch:#F0D65C"
+      aria-label="Yellow">
+    </button>
+
   </div>
+
 </div>
+
+
 <script>
-const loop=document.getElementById('loop');
-const product=document.getElementById('product');
-const flat=document.getElementById('flat');
-const hover=document.getElementById('hover');
-const buttons=[...document.querySelectorAll('.selector button')];
-let current='black';
-let hovering=false;
 
-product.addEventListener('pointerenter',()=>{
-  hovering=true;
+const loop =
+  document.getElementById('loop');
+
+const product =
+  document.getElementById('product');
+
+const flat =
+  document.getElementById('flat');
+
+const hover =
+  document.getElementById('hover');
+
+const buttons =
+  [...document.querySelectorAll('.selector button')];
+
+
+let current = 'black';
+let hovering = false;
+
+
+/* HOVER */
+
+product.addEventListener('pointerenter', () => {
+
+  hovering = true;
+
   product.classList.add('is-hovering');
-});
-product.addEventListener('pointerleave',()=>{
-  hovering=false;
-  product.classList.remove('is-hovering');
+
 });
 
-buttons.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const c=btn.dataset.colour;
-    if(c===current)return;
-    buttons.forEach(b=>b.classList.remove('active'));
+
+product.addEventListener('pointerleave', () => {
+
+  hovering = false;
+
+  product.classList.remove('is-hovering');
+
+});
+
+
+/* COLOUR SELECTOR */
+
+buttons.forEach(btn => {
+
+  btn.addEventListener('click', () => {
+
+    const colour =
+      btn.dataset.colour;
+
+
+    if (colour === current) {
+      return;
+    }
+
+
+    buttons.forEach(button => {
+      button.classList.remove('active');
+    });
+
+
     btn.classList.add('active');
 
-    // Temporarily return to the flat state while loading both new poses.
+
+    /*
+      Always return to the flat
+      position while the new renders load.
+    */
+
     product.classList.remove('is-hovering');
 
-    const nextFlat=new Image(), nextHover=new Image();
-    let loaded=0;
-    const ready=()=>{
+
+    const nextFlat =
+      new Image();
+
+    const nextHover =
+      new Image();
+
+
+    let loaded = 0;
+
+
+    const ready = () => {
+
       loaded++;
-      if(loaded<2)return;
-      flat.src=nextFlat.src;
-      hover.src=nextHover.src;
-      loop.style.setProperty('--colour',btn.dataset.bg);
-      current=c;
-      if(hovering) requestAnimationFrame(()=>product.classList.add('is-hovering'));
+
+
+      if (loaded < 2) {
+        return;
+      }
+
+
+      flat.src =
+        nextFlat.src;
+
+      hover.src =
+        nextHover.src;
+
+
+      loop.style.setProperty(
+        '--colour',
+        btn.dataset.bg
+      );
+
+
+      current =
+        colour;
+
+
+      /*
+        If the mouse is still
+        over the drill, smoothly
+        return to the hover state.
+      */
+
+      if (hovering) {
+
+        requestAnimationFrame(() => {
+
+          product.classList.add(
+            'is-hovering'
+          );
+
+        });
+
+      }
+
     };
-    nextFlat.onload=ready;
-    nextHover.onload=ready;
-    nextFlat.src=c+'-flat.png';
-    nextHover.src=c+'-hover.png';
+
+
+    nextFlat.onload =
+      ready;
+
+    nextHover.onload =
+      ready;
+
+
+    nextFlat.src =
+      colour + '-flat.png';
+
+    nextHover.src =
+      colour + '-hover.png';
+
   });
+
 });
+
 </script>
+
 </body>
 </html>
